@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}SchoolProject{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('assets/css/tabler.min.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('assets/css/style.css') }}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    {% block stylesheets %}{% endblock %}
+
+    <script src="{{ asset('assets/js/vendors/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/vendors/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/tabler.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+</head>
+<body>
+<div class="page">
+    <div class="page-main">
+        {% include 'navbar.html.twig' %}
+        <div class="col-12">
+            <div class="container">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
+                    Copyright © 2019 <a href=".">Forum</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

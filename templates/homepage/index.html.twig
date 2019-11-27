@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum - Homepage{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <div class="page-title">Home</div>
+        <div class="page-options">
+            <a href="{{ path('create_message') }}" class="btn btn-secondary"><i class="fe fe-plus"></i> Bericht aanmaken</a>
+        </div>
+    </div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-icon alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"></button>
+            <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-icon alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"></button>
+            <i class="fe fe-alert-triangle mr-2" aria-hidden="true"></i> {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+        {% for message in messages %}
+            <div class="col-md-6 col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ message.title }}</h3>
+                        <div class="card-options">
+                            <a href="{{ path('message', {'message': message.id}) }}">Lees meer!</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {{ message.content|truncate(200)|striptags|raw }}
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <small>Auteur: </small>
+                            <strong>
+                                <a class="text-black-50" href="{{ path('profile', {'user': message.user.email}) }}">
+                                    {{ message.user.extraInformationUser.fullname }}
+                                </a>
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

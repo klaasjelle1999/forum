@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum - Bericht aanmaken{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <div class="page-title">Bericht aanmaken</div>
+        <div class="page-options">
+            <a href="{{ path('homepage') }}" class="btn btn-secondary"><i class="fe fe-arrow-left"></i> Terug</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            <div class="form-group">
+                <label class="sr-only">Titel</label>
+                <label class="form-label">Titel</label>
+                {{ form_row(form.title) }}
+            </div>
+            <div class="form-group">
+                <label class="sr-only">Content</label>
+                <label class="form-label">Content</label>
+                {{ form_row(form.content, {'attr': {'name': 'contentArea'}}) }}
+            </div>
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary">Verzenden</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="//cdn.ckeditor.com/4.12.1/basic/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('create_message_form_content')
+    </script>
+{% endblock %}

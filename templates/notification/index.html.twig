@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello NotificationController!{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <div class="page-title">Notificaties</div>
+    </div>
+    <div class="row">
+        {% for notification in notifications %}
+            <div class="col-md-6 col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                                Vriendschaps verzoek
+                        </h3>
+                        <div class="card-options">
+                            <a href="{{ path('remove_notification', {'notification': notification.id}) }}" class="card-options-remove"><i class="fe fe-x"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ path('profile', {'user': notification.sender.email}) }}">
+                            <strong>{{ notification.sender.extrainformationUser.fullname }}</strong>
+                        </a>
+                            heeft u een vriendschaps verzoek gestuurd
+                    </div>
+                        <div class="card-footer">
+                            <div class="text-center">
+                                <a href="{{ path('add_friend', {'notification': notification.id}) }}" class="btn btn-outline-success btn-sm"><i class="fa fa-plus"></i>Toevoegen</a>
+                                <a href="{{ path('remove_notification', {'notification': notification.id}) }}" class="btn btn-outline-danger btn-sm"><i class="fa fa-minus"></i> Verwijderen</a>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

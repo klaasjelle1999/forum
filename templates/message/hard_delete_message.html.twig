@@ -1,0 +1,16 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Weet u het zeker?</h4>
+        </div>
+        <div class="modal-body">
+            <p>Door op "Verwijder dit bericht!" te klikken wordt dit bericht DEFINITIEF verwijderd!</p>
+        </div>
+        <div class="modal-footer">
+            <a href="{{ path('delete_message', {'message': message.id}) }}"
+               class="btn btn-danger">Verwijder dit bericht!</a>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close
+            </button>
+        </div>
+    </div>
+</div>

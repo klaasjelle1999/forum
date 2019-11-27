@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum - {{ message.title }}{% endblock %}
+
+{% block body %}
+    <div id="messageModal" class="modal fade show"></div>
+    <div class="page-header row">
+        <h1 class="page-title align-top align-text-top">
+            {{ message.title }}
+            <small class="text-muted">
+                door:
+                <a href="{{ path('profile', {'user': message.user.email}) }}">
+                    {{ message.user.email }}
+                </a>
+            </small>
+        </h1>
+        <div class="page-options">
+            <a href="{{ path('homepage') }}" class="btn btn-secondary"><i class="fe fe-arrow-left"></i> Terug</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">{{ message.title }}</div>
+            <div class="card-options">
+                {% if is_granted('ROLE_ADMIN') or message.user == app.user %}
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button onclick="removeMessage({{ message.id }})" class="btn btn-outline-danger"><i
+                                    class="fe fe-trash"></i></button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body" id="editor1"
+                {% if is_granted('ROLE_ADMIN') or message.user == app.user %}
+                    contenteditable="true"
+                {% endif %}
+        >
+            {{ message.content|markdown }}
+        </div>
+        <div class="card-footer">
+            <form method="post">
+                <div class="input-group">
+                    <input name="comment" type="text" class="form-control" placeholder="Comment">
+                    <div class="input-group-append">
+                        <button type="submit" name="submit" class="btn btn-primary">Verzenden</button>
+                    </div>
+                </div>
+            </form>
+            <ul class="list-group card-list-group">
+                {% for comment in message.comments %}
+                    <li class="list-group-item py-5">
+                        <div class="media">
+                            <div class="media-object avatar avatar-md mr-4">{{ comment.user.email|slice(0, 1)|upper }}</div>
+                            <div class="media-body">
+                                <div class="media-heading">
+                                    <div class="float-right">
+                                        <small class="text-muted">{{ comment.createdAt|ago }}</small>
+                                    </div>
+                                    <h5>{{ comment.user.extraInformationUser.fullname }}</h5>
+                                </div>
+                                <div>{{ comment.content }}</div>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="//cdn.ckeditor.com/4.12.1/basic/ckeditor.js"></script>
+    {% if is_granted('ROLE_ADMIN') or message.user == app.user %}
+        <script>
+            const viewDeleteMessageModal = '{{ path('view_delete_message', {message: '__REPLACE__'}) }}';
+
+            function removeMessage(id) {
+                $.get(viewDeleteMessageModal.replace('__REPLACE__', id)).then(function (html) {
+                    $('#messageModal').html(html);
+                    $('#messageModal').modal('show');
+                })
+            }
+
+
+            CKEDITOR.disableAutoInline = true;
+            CKEDITOR.inline('editor1', {
+                on: {
+                    blur: function (event) {
+                        if (event.editor.checkDirty())
+                            var data = {message: event.editor.getData()};
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ path('edit_message', {'message': message.id}) }}',
+                            data: data,
+                            success: function (response) {
+                                content.html(response);
+                            }
+                        });
+                    }
+                }
+            });
+        </script>
+    {% endif %}
+{% endblock %}

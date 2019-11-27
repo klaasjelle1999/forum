@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('assets/css/tabler.min.css') }}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('assets/css/style.css') }}"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <script src="{{ asset('assets/js/vendors/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/vendors/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/tabler.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+</head>
+<body>
+<div class="page">
+    <div class="page-single">
+        <div class="container">
+            <div class="row">
+                <div class="col col-login mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">Registreer</div>
+                            {{ form_start(registrationForm) }}
+                            <div class="form-group">
+                                <label class="form-label sr-only">Email</label>
+                                {{ form_row(registrationForm.email) }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label sr-only">Volledige naam</label>
+                                {{ form_row(registrationForm.fullname) }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label sr-only">Geboortedag:</label>
+                                {{ form_row(registrationForm.birthday) }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Geslacht:</label>
+                                {{ form_row(registrationForm.gender) }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label sr-only">Wachtwoord</label>
+                                {{ form_row(registrationForm.plainPassword) }}
+                            </div>
+                            <a href="{{ path('app_login') }}">Heeft u al een account?</a>
+                            <div class="form-footer">
+                                <button class="btn btn-primary btn-block" type="submit">Register</button>
+                            </div>
+                            {{ form_end(registrationForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#registration_form_birthday").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd-mm-yy",
+            yearRange: "1970:+nn",
+        });
+    })
+</script>
+</body>
+</html>

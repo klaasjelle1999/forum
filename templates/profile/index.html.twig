@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum - {{ user.email }}{% endblock %}
+
+{% block body %}
+    <div class="my-3 my-md-5">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card card-profile">
+                    <div class="card-header"
+                         style="background-image: url('https://preview.tabler.io/demo/photos/eberhard-grossgasteiger-311213-500.jpg');"></div>
+                    <div class="card-body text-center">
+                        <img class="card-profile-img" src="/assets/img/default-avatar.png">
+                        <h3 class="mb-3">
+                            {% if user.extraInformationUser != null %}
+                                {{ user.extrainformationuser.fullname }}
+                            {% else %}
+                                {{ user.email }}
+                            {% endif %}
+                        </h3>
+                        <p class="mb-4">{{ user.extraInformationUser.bio }}</p>
+                        {% if user != app.user %}
+                            {% if friendRequest == null %}
+                                <a href="{{ path('send_friendrequest', {'user': user.email}) }}"
+                                   class="btn btn-outline-primary btn-sm">
+                                    <span class="fa fa-plus"></span> Follow
+                                </a>
+                            {% elseif friendRequest.status == 0 %}
+                                <a href="{{ path('create_friend_request', {'user': user.email}) }}"
+                                   class="btn btn-outline-secondary disabled btn-sm">
+                                    <span class="fa fa-clock"></span> Pending
+                                </a>
+                            {% elseif friendRequest.status == 1 %}
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-users"></i> Friends
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a href="#" class="dropdown-item text-red"><i class="fa fa-user-slash"></i> Remove friend</a>
+                                    </div>
+                                </div>
+{#                                <a href="#" class="btn btn-outline-success disabled btn-sm">#}
+{#                                    <span class="fa fa-users"></span> Friends#}
+{#                                </a>#}
+                            {% endif %}
+                        {% endif %}
+                        {% if user == app.user %}
+                            <a href="{{ path('edit_user', {'user': user.email}) }}"
+                               class="btn btn-outline-primary btn-sm">
+                                <span class="fa fa-edit"></span> Edit profile
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <form method="post" style="width: 100%;">
+                            <div class="input-group">
+                                <input type="text" id="profileComment" name="profileComment" class="form-control"
+                                       placeholder="Message">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" name="submit" type="submit">
+                                        <i class="far fa-comment"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="list-group card-list-group">
+                        {% for comment in profileComments %}
+                            <li class="list-group-item py-5">
+                                <div class="media">
+                                    <span class="media-object avatar avatar-md mr-4">{{ comment.author.extraInformationUser.fullname|slice(0, 1) }}</span>
+                                    <div class="media-body">
+                                        <div class="media-heading">
+                                            <small class="float-right text-muted">{{ comment.createdAt|ago }}</small>
+                                            <h5><a href="{{ path('profile', {'user': comment.author.email}) }}"
+                                                   class="text-black-50">{{ comment.author.extrainformationuser.fullname }}</a>
+                                            </h5>
+                                        </div>
+                                        <div>
+                                            {{ comment.content }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+    </script>
+{% endblock %}
