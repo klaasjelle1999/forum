@@ -142,9 +142,7 @@ class MessageController extends AbstractController
         if (!$message instanceof Message) {
             throw new NotFoundHttpException('Dit bericht is niet gevonden!');
         }
-        if ((!$this->isGranted('ROLE_ADMIN')) || (!$this->getUser() === $message->getUser())) {
-            throw new AccessDeniedException('U hebt geen rechten om deze actie uit te voeren!');
-        }
+        
         foreach ($message->getComments() as $comment) {
             $this->em->remove($comment);
             $this->em->flush();
